@@ -5,6 +5,10 @@ const path = require('path')
 
 const app = express();
 
+//Setting global configration...
+app.set('view engine', 'pug');
+app.set('views', 'views');
+
 //Importing files from routes
 const adminData = require('./routes/admin');
 const shopRoute = require('./routes/shop');
