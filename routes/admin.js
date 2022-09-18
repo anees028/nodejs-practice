@@ -12,7 +12,7 @@ router.get('/add-product', (req, res, next) => {
     //res.sendFile(path.join(rootDir, 'views', 'add-product.html'));
 
     //Render HTML using template engine PUG.
-    res.render('add-product', {title:'Add Product'})
+    res.render('add-product', {pageTitle:'Add Product', path:'/admin/add-product'})
 })
 
 // /admin/product  => POST 
