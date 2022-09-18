@@ -7,10 +7,19 @@ const rootDir = require('../utils/path')
 
 const router = express.Router();
 
-router.get('/',(req, res, next) => {
-    // console.log('Shop' , adminData.products)
+router.get('/', (req, res, next) => {
+    //Send response as simple html file...
     // res.sendFile(path.join(rootDir, 'views', 'shop.html'));
-    res.render('shop', {prods: adminData.products, pageTitle:'Shop', path:'/'})
+
+    //Send response using template engine to the client (PUG , Handlebars)
+    res.render('shop', 
+    { 
+        prods: adminData.products, 
+        pageTitle: 'Shop', path: '/', 
+        hasProducts: adminData.products.length > 0,
+        activeShop: true,
+        productCSS:true,
+    })
 })
 
 module.exports = router;
