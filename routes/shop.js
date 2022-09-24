@@ -8,10 +8,7 @@ const rootDir = require('../utils/path')
 const router = express.Router();
 
 router.get('/', (req, res, next) => {
-    //Send response as simple html file...
-    // res.sendFile(path.join(rootDir, 'views', 'shop.html'));
-
-    //Send response using template engine to the client (PUG , Handlebars)
+    //Send response using template engine to the client (EJS, PUG, Handlebars)
     res.render('shop', 
     { 
         prods: adminData.products, 

@@ -2,25 +2,12 @@ const http = require('http');
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path')
-const expressHbs = require('express-handlebars');
 
 const app = express();
 
 //Setting global configration...
 
-//Using and setting PUBG template engine...
-//app.set('view engine', 'pug');
-
-//Using and Setting HandleBars as templating engine
-app.engine(
-    'hbs', 
-    expressHbs.engine({
-        layoutsDir: 'views/layouts/', 
-        defaultLayout:'main-layout', 
-        extname: 'hbs'
-    })
-);
-app.set('view engine', 'hbs')
+app.set('view engine', 'ejs')
 
 app.set('views', './views');
 
