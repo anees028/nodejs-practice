@@ -12,21 +12,20 @@ app.set('view engine', 'ejs')
 app.set('views', './views');
 
 //Importing files from routes
-const adminData = require('./routes/admin');
+const adminRoutes = require('./routes/admin');
 const shopRoute = require('./routes/shop');
+
+//Importing 404 controller
+const pageNotFoundController = require('./controllers/error')
 
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(express.static(path.join(__dirname, 'public')))
 
-app.use('/admin',adminData.routes);
+//Setting up routes...
+app.use('/admin',adminRoutes);
 app.use(shopRoute);
 
-app.use((req,res,next)=> {
-    //res.status(404).sendFile(path.join(__dirname, './', 'views', '404.html'))
-    res.render('404', {pageTitle:'404 Page not found'})
-})
-
-
+app.use(pageNotFoundController.page404)
 
 
 console.log("Server is running on 3000")
