@@ -1,39 +1,38 @@
 const Product = require('../models/product')
 
-exports.getIndex = (req,res,next) => {
-    const products = Product.fetchAll();
-    res.render('shop/index', 
-    { 
-        prods: products, 
-        pageTitle: 'Shop', 
-        path: '/', 
+exports.getIndex = (req, res, next) => {
+    Product.fetchAll(products => {
+        res.render('shop/index', {
+            prods: products,
+            pageTitle: 'Shop',
+            path: '/'
+        });
     });
 }
 
 exports.getProducts = (req, res, next) => {
-    //Send response using template engine to the client (EJS, PUG, Handlebars)
-    const products = Product.fetchAll()
-    res.render('shop/productList', 
-    { 
-        prods: products, 
-        pageTitle: 'All Products', 
-        path: '/products',
-    })
+    Product.fetchAll(products => {
+        res.render('shop/productList', {
+            prods: products,
+            pageTitle: 'All Products',
+            path: '/products'
+        });
+    });
 }
 
-exports.getCart= (req, res, next) => {
+exports.getCart = (req, res, next) => {
     res.render('shop/cart',
-    {
-        pageTitle: 'Your Cart', 
-        path: '/cart', 
-    })
+        {
+            pageTitle: 'Your Cart',
+            path: '/cart',
+        })
 }
 
-exports.getCheckout = (req,res,next ) => {
+exports.getCheckout = (req, res, next) => {
     res.render('shop/checkout',
-    {
-        pageTitle: 'Checkout', 
-        path: '/checkout', 
-    })
+        {
+            pageTitle: 'Checkout',
+            path: '/checkout',
+        })
 }
 
