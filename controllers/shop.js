@@ -1,5 +1,7 @@
 const Product = require('../models/product');
 
+//Always define the path while rendering the response....Copy same path as in navigation.ejs
+
 exports.getProducts = (req, res, next) => {
   Product.fetchAll(products => {
     res.render('shop/product-list', {
@@ -9,6 +11,17 @@ exports.getProducts = (req, res, next) => {
     });
   });
 };
+
+exports.getProductsDetail = (req,res, next) => {
+  const prodId = parseInt(req.params.productId);
+  Product.findById(prodId, product => {
+    res.render('shop/product-detail', {
+      pageTitle: 'Product Detail',
+      product: product,
+      path:'/products'
+    });
+  });
+}
 
 exports.getIndex = (req, res, next) => {
   Product.fetchAll(products => {
