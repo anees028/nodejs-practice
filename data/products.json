@@ -4,13 +4,27 @@
         "title": "7 Habbits",
         "imageUrl": "https://www.publicdomainpictures.net/pictures/10000/velka/1-1210009435EGmE.jpg",
         "description": "This is an awesome book!",
-        "price": "19"
+        "price": "20"
     },
     {
         "id": 123,
         "title": "Twilight Saga",
         "imageUrl": "https://www.publicdomainpictures.net/pictures/10000/velka/1-1210009435EGmE.jpg",
         "description": "This is an awesome book!",
-        "price": "19"
+        "price": "25"
+    },
+    {
+        "id": 567,
+        "title": "Rich Dad, Poor Dad",
+        "imageUrl": "https://www.publicdomainpictures.net/pictures/10000/velka/1-1210009435EGmE.jpg",
+        "description": "This is about old man!",
+        "price": "30"
+    },
+    {
+        "id": 342,
+        "title": "Green Valley",
+        "imageUrl": "https://www.publicdomainpictures.net/pictures/10000/velka/1-1210009435EGmE.jpg",
+        "description": "It's about adventure",
+        "price": "70"
     }
 ]
