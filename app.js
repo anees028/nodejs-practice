@@ -3,6 +3,9 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 
+//import database connection...
+const db = require('./utils/database');
+
 //Importing 404 controller
 const errorController = require('./controllers/error');
 
@@ -16,6 +19,12 @@ app.set('views', 'views');
 //Importing files from routes
 const adminRoutes = require('./routes/admin');
 const shopRoute = require('./routes/shop');
+
+db.execute('select * from products').then(x => {
+    console.log(x[0])
+}).catch(err => {
+    console.log(err);
+})
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
