@@ -8,10 +8,10 @@
     },
     {
         "id": 123,
-        "title": "Twilight Saga",
+        "title": "Twilight Saga (V4)",
         "imageUrl": "https://www.publicdomainpictures.net/pictures/10000/velka/1-1210009435EGmE.jpg",
-        "description": "This is an awesome book!",
-        "price": "25"
+        "description": "23",
+        "price": "Its a Good book"
     },
     {
         "id": 567,
