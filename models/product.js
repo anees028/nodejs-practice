@@ -44,29 +44,15 @@ module.exports = class Product {
     });
   }
 
-  delete(prodId){
+  static deleteById(id){
     getProductsFromFile(products => {
-      if(prodId){
-        const product = products.find(prod => prod.id === prodId);
-        //Using Array splice methode ....
-        // const existingIndex = products.findIndex(obj => obj.id === prodId);
-        // const updateProducts = [...products];
-        // updateProducts.splice(existingIndex, 1);
-
-        //Using Array filter methode....
-        const updateProducts = products.filter(obj => obj.id !== prodId); //removing from product array....
-        fs.writeFile(p, JSON.stringify(updateProducts), err => {
-          if(!err){
-            //Cart.deleteProduct(prodId,parseInt(product.price) )
-          }
-          else{
-            console.log(err);
+        const product = products.find(prod => prod.id === id);
+        const updatedProducts = products.filter(prod => prod.id !== id); //removing specific product from product array....
+        fs.writeFile(p, JSON.stringify(updatedProducts), err => {
+          if (!err) {
+            Cart.deleteProduct(id, product.price);
           }
         });
-      }
-      else{
-        console.log("Product Not found"); 
-      }
     })
   }
 
