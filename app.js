@@ -30,8 +30,8 @@ app.use(shopRoute);
 app.use(errorController.get404);
 
 sequelize.sync().then(result => {
-    console.log("Server is running on 3000")
-    app.listen(3000);
+    console.log("Server is running on 3002")
+    app.listen(3002);
 }).catch(err => {
     console.log(err)
 });

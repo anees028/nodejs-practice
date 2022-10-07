@@ -3,9 +3,9 @@ const Product = require('../models/product');
 
 
 exports.getProducts = (req, res, next) => {
-  Product.fetchAll().then(([rows, fieldData]) => {   //Destructuring the incomming response from Database.
+  Product.findAll().then((products) => {
     res.render('shop/index', {
-      prods: rows,
+      prods: products,
       pageTitle: 'All Products',
       path: '/products'
     });
@@ -14,13 +14,14 @@ exports.getProducts = (req, res, next) => {
   })
 };
 
-exports.getProduct = (req,res, next) => {
+exports.getProduct = (req, res, next) => {
   const prodId = parseInt(req.params.productId);
-  Product.findById(prodId).then(([product]) => {   //Destructuring the single product from incomming response from Database.
+  Product.findOne({ where: { id: prodId }})
+  .then(product => {
     res.render('shop/product-detail', {
       pageTitle: 'Product Detail',
-      product: product[0],
-      path:'/products'
+      product: product,
+      path: '/products'
     });
   }).catch(err => {
     console.log(err);
@@ -28,9 +29,9 @@ exports.getProduct = (req,res, next) => {
 }
 
 exports.getIndex = (req, res, next) => {
-  Product.fetchAll().then(([rows, fieldData]) => {   //Destructuring the incomming response from Database.
+  Product.findAll().then((products) => {
     res.render('shop/index', {
-      prods: rows,
+      prods: products,
       pageTitle: 'Shop',
       path: '/'
     });
@@ -46,7 +47,7 @@ exports.getCart = (req, res, next) => {
   });
 };
 
-exports.postCart = (req,res, next) => {
+exports.postCart = (req, res, next) => {
   const prodId = parseInt(req.body.productId);
   Product.findById(prodId, (product) => {
     Cart.addProduct(prodId, product.price);
