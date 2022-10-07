@@ -4,7 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 //import database connection...
-const db = require('./utils/database');
+const sequelize = require('./utils/database');
 
 //Importing 404 controller
 const errorController = require('./controllers/error');
@@ -20,7 +20,6 @@ app.set('views', 'views');
 const adminRoutes = require('./routes/admin');
 const shopRoute = require('./routes/shop');
 
-
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -30,5 +29,11 @@ app.use(shopRoute);
 
 app.use(errorController.get404);
 
-console.log("Server is running on 3000")
-app.listen(3000);
+sequelize.sync().then(result => {
+    console.log("Server is running on 3000")
+    app.listen(3000);
+}).catch(err => {
+    console.log(err)
+});
+
+
