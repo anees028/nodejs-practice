@@ -1,37 +1,42 @@
 const Cart = require('../models/cart');
 const Product = require('../models/product');
 
-//Always define the path while rendering the response....Copy same path as in navigation.ejs
 
 exports.getProducts = (req, res, next) => {
-  Product.fetchAll(products => {
-    res.render('shop/product-list', {
-      prods: products,
+  Product.fetchAll().then(([rows, fieldData]) => {   //Destructuring the incomming response from Database.
+    res.render('shop/index', {
+      prods: rows,
       pageTitle: 'All Products',
       path: '/products'
     });
-  });
+  }).catch(err => {
+    console.log(err)
+  })
 };
 
-exports.getProductsDetail = (req,res, next) => {
+exports.getProduct = (req,res, next) => {
   const prodId = parseInt(req.params.productId);
-  Product.findById(prodId, product => {
+  Product.findById(prodId).then(([product]) => {   //Destructuring the single product from incomming response from Database.
     res.render('shop/product-detail', {
       pageTitle: 'Product Detail',
-      product: product,
+      product: product[0],
       path:'/products'
     });
+  }).catch(err => {
+    console.log(err);
   });
 }
 
 exports.getIndex = (req, res, next) => {
-  Product.fetchAll(products => {
+  Product.fetchAll().then(([rows, fieldData]) => {   //Destructuring the incomming response from Database.
     res.render('shop/index', {
-      prods: products,
+      prods: rows,
       pageTitle: 'Shop',
       path: '/'
     });
-  });
+  }).catch(err => {
+    console.log(err)
+  })
 };
 
 exports.getCart = (req, res, next) => {
