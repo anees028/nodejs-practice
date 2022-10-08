@@ -6,6 +6,10 @@ const bodyParser = require('body-parser');
 //import database connection...
 const sequelize = require('./utils/database');
 
+//importing models from model folder...
+const Product = require('./models/product');
+const User = require('./models/user');
+
 //Importing 404 controller
 const errorController = require('./controllers/error');
 
@@ -29,7 +33,11 @@ app.use(shopRoute);
 
 app.use(errorController.get404);
 
-sequelize.sync().then(result => {
+Product.belongsTo(User, {constraints : true, onDelete: 'CASCADE'});
+User.hasMany(Product);
+
+sequelize.sync({force: true}) //Don't use force for production...
+.then(result => {
     console.log("Server is running on 3002")
     app.listen(3002);
 }).catch(err => {
