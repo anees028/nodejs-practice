@@ -13,12 +13,24 @@ exports.postAddProduct = (req, res, next) => {
   const imageUrl = req.body.imageUrl;
   const price = req.body.price;
   const description = req.body.description;
-  Product.create({
-    title: title,
-    price: price,
-    imageUrl: imageUrl,
-    description: description
-  }).then((result) => {
+  //Simple Product Creation....
+  // Product.create({
+  //   title: title,
+  //   price: price,
+  //   imageUrl: imageUrl,
+  //   description: description,
+  //   userId: req.user.id
+  // })
+
+  //Making association relation between User (1) & Product (*) 
+  req.user.createProduct({
+      title: title,
+      price: price,
+      imageUrl: imageUrl,
+      description: description
+  })
+  .then((result) => {
+    res.redirect('/admin/products');
     console.log('Created Product')
   }).catch(err => {
     console.log(err)
