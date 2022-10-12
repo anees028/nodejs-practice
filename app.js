@@ -28,7 +28,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req,res,next) => {
-    User.findOne({ where: { id: 1 }}).then((user) => {
+    User.findOne({ where: { id: 1 }})
+    .then((user) => {
         req.user = user;
         next();
     }).catch(err => {

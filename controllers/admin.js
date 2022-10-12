@@ -29,6 +29,7 @@ exports.postAddProduct = (req, res, next) => {
       imageUrl: imageUrl,
       description: description
   })
+  
   .then((result) => {
     res.redirect('/admin/products');
     console.log('Created Product')
@@ -43,7 +44,15 @@ exports.getEditProduct = (req, res, next) => {
   if (!editMode) {
     return res.redirect('/');
   }
-  Product.findOne({ where: { id: productId } }).then(product => {
+  //Simple way of getting a product using sequelize....
+  //Product.findOne({ where: { id: productId } })
+  
+
+  //Getting a product as relation between User & Product..
+  req.user.getProducts({ where: { id: productId }})
+  
+  .then(products => {
+    const product = products[0]; 
     if (!product) {
       return res.redirect('/');
     }
@@ -80,8 +89,14 @@ exports.postEditproduct = (req, res, next) => {
 }
 
 exports.getProducts = (req, res, next) => {
-  Product.findAll().then((products) => {
-    res.render('admin/products', {
+  //Simple Getting products using Sequelize methode..
+  //Product.findAll()
+   
+  //Getting a product as relation between User & Product..
+  req.user.getProducts()
+  
+  .then((products) => {
+  res.render('admin/products', {
       prods: products,
       pageTitle: 'Admin Products',
       path: '/admin/products'
