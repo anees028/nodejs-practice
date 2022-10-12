@@ -9,6 +9,8 @@ const sequelize = require('./utils/database');
 //importing models from model folder...
 const Product = require('./models/product');
 const User = require('./models/user');
+const Cart = require('./models/cart');
+const CartItem = require('./models/cart-item');
 
 //Importing 404 controller
 const errorController = require('./controllers/error');
@@ -43,12 +45,17 @@ app.use(shopRoute);
 
 app.use(errorController.get404);
 
+
+//Creating a relation between tables or Sequelize model classes
 Product.belongsTo(User, {constraints : true, onDelete: 'CASCADE'});
 User.hasMany(Product);
+User.hasOne(Cart);
+Cart.belongsTo(User);
+Cart.belongsToMany(Product, {through: CartItem});
+Product.belongsToMany(Cart, {through: CartItem});
 
 //sequelize.sync({force: true}) //Don't use force for production...
-sequelize
-.sync()
+sequelize.sync()
 .then(result => {
     return User.findOne({ where: { id: 1 }})
 })
