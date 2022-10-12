@@ -27,6 +27,15 @@ const shopRoute = require('./routes/shop');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use((req,res,next) => {
+    User.findOne({ where: { id: 1 }}).then((user) => {
+        req.user = user;
+        next();
+    }).catch(err => {
+        console.log(err);
+    })
+})
+
 //Setting up routes...
 app.use('/admin',adminRoutes);
 app.use(shopRoute);
@@ -36,10 +45,21 @@ app.use(errorController.get404);
 Product.belongsTo(User, {constraints : true, onDelete: 'CASCADE'});
 User.hasMany(Product);
 
-sequelize.sync({force: true}) //Don't use force for production...
+//sequelize.sync({force: true}) //Don't use force for production...
+sequelize
+.sync()
 .then(result => {
-    console.log("Server is running on 3002")
-    app.listen(3002);
+    return User.findOne({ where: { id: 1 }})
+})
+.then((user) => {
+    if(!user){
+        User.create({name: "Anees", email:"anees@gmail.com" });
+    }
+    return user;
+})
+.then((user) => {
+    console.log("User : ",user)
+    app.listen(3002)
 }).catch(err => {
     console.log(err)
 });
