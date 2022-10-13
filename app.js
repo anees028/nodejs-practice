@@ -66,9 +66,13 @@ sequelize.sync()
     return user;
 })
 .then((user) => {
-    console.log("User : ",user)
+    return user.createCart();
+})
+.then((cart) => {
+    console.log('Server is running on ',3002);
     app.listen(3002)
-}).catch(err => {
+})
+.catch(err => {
     console.log(err)
 });
 
