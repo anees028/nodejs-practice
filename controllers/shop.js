@@ -93,6 +93,22 @@ exports.postCart = (req, res, next) => {
     })
 }
 
+exports.postCartDeleteProduct = (req,res,next) => {
+  const prodId = req.body.productId;
+  req.user.getCart()// 1: Find the card of the specific user...
+  .then(cart => {
+    return cart.getProducts({where : {id : prodId}}); //2: Get specific product from the card...
+  })
+  .then(products =>{
+    const product = products[0]; //3: Store specific product in variable ..
+    return product.cartItem.destroy(); //4: By DESTROY method it will be destroyed from cartItem table...
+  })
+  .then(() => {
+    res.redirect('/cart');
+  })
+  .catch(err => console.log(err))
+}
+
 exports.getOrders = (req, res, next) => {
   res.render('shop/orders', {
     path: '/orders',

@@ -73,7 +73,6 @@ exports.postEditproduct = (req, res, next) => {
   const upImageUrl = req.body.imageUrl;
   const upPrice = req.body.price;
   const upDescription = req.body.description;
-  const updateProd = new Product(productId, upTitle, upImageUrl, upDescription, upPrice);
   Product.findOne({ where: { id: productId } }).then(product => {
     product.title = upTitle;
     product.price = upPrice;
