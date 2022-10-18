@@ -17,7 +17,7 @@ app.set('view engine', 'ejs');
 app.set('views', 'views');
 
 //Importing files from routes
-// const adminRoutes = require('./routes/admin');
+const adminRoutes = require('./routes/admin');
 // const shopRoute = require('./routes/shop');
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -34,13 +34,12 @@ app.use((req,res,next) => {
 })
 
 //Setting up routes...
-// app.use('/admin',adminRoutes);
+app.use('/admin',adminRoutes);
 // app.use(shopRoute);
 
 app.use(errorController.get404);
 
 
-mongoConnect((client) => {
-    console.log(client);
+mongoConnect(() => {
     app.listen(3002)
 })
