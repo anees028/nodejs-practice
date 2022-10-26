@@ -4,13 +4,13 @@ const uri = 'mongodb+srv://anees:anees1234@nodejsapp.vyd8ed0.mongodb.net/?retryW
 const databaseName = "nodeJs";
 let _db;
 
-const mongoConnect = () => {
+const mongoConnect = callback => {
     MongoClient.connect(uri, { 
         useNewUrlParser: true 
     }).then((client)=> {
         console.log("Connection established - All well");
         _db = client.db(databaseName);
-
+        callback();
     }).catch(err => {
         console.log("Connection failed for some reason");
     })
