@@ -4,7 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 //importing mongodb....
-const mongoConnect = require('./utils/database');
+const mongoConnect = require('./utils/mongo-database').mongoConnect;
 
 //Importing 404 controller
 const errorController = require('./controllers/error');
@@ -13,11 +13,10 @@ const app = express();
 
 //Setting global configration...
 app.set('view engine', 'ejs');
-
 app.set('views', 'views');
 
 //Importing files from routes
-const adminRoutes = require('./routes/admin');
+// const adminRoutes = require('./routes/admin');
 // const shopRoute = require('./routes/shop');
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -34,12 +33,15 @@ app.use((req,res,next) => {
 })
 
 //Setting up routes...
-app.use('/admin',adminRoutes);
+// app.use('/admin',adminRoutes);
 // app.use(shopRoute);
 
 app.use(errorController.get404);
 
+let port = 3002
 
 mongoConnect(() => {
-    app.listen(3002)
+    //console.log(client);
+    app.listen(port)
 })
+console.log("Server is running on port ",port);
