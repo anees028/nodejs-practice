@@ -1,4 +1,7 @@
 const Product = require('../models/product');
+const mongodb = require('mongodb');
+
+const ObjectId = mongodb.ObjectId;
 
 exports.getAddProduct = (req, res, next) => {
   res.render('admin/edit-product', {
@@ -23,54 +26,42 @@ exports.postAddProduct = (req, res, next) => {
   });
 };
 
-// exports.getEditProduct = (req, res, next) => {
-//   let productId = parseInt(req.params.productId);
-//   const editMode = req.query.edit;
-//   if (!editMode) {
-//     return res.redirect('/');
-//   }
-//   //Simple way of getting a product using sequelize....
-//   //Product.findOne({ where: { id: productId } })
-  
+exports.getEditProduct = (req, res, next) => {
+  let productId = req.params.productId;
+  const editMode = req.query.edit;
+  if (!editMode) {
+    return res.redirect('/');
+  }
+  Product.findById(productId)
+  .then(product => {
+    if (!product) {
+      return res.redirect('/');
+    }
+    res.render('admin/edit-product', {
+      pageTitle: 'Add Product',
+      path: '/admin/add-product',
+      editing: editMode,
+      product: product,
+    });
+  }).catch(err => {
+    console.log(err);
+  })
+};
 
-//   //Getting a product as relation between User & Product..
-//   req.user.getProducts({ where: { id: productId }})
-  
-//   .then(products => {
-//     const product = products[0]; 
-//     if (!product) {
-//       return res.redirect('/');
-//     }
-//     res.render('admin/edit-product', {
-//       pageTitle: 'Add Product',
-//       path: '/admin/add-product',
-//       editing: editMode,
-//       product: product,
-//     });
-//   }).catch(err => {
-//     console.log(err);
-//   })
-// };
-
-// exports.postEditproduct = (req, res, next) => {
-//   let productId = parseInt(req.body.productId);
-//   const upTitle = req.body.title;
-//   const upImageUrl = req.body.imageUrl;
-//   const upPrice = req.body.price;
-//   const upDescription = req.body.description;
-//   Product.findOne({ where: { id: productId } }).then(product => {
-//     product.title = upTitle;
-//     product.price = upPrice;
-//     product.description = upDescription;
-//     product.imageUrl = upImageUrl;
-//     return product.save();
-//   }).then(result => {
-//     res.redirect('/admin/products');
-//     console.log("Updated Result")
-//   }).catch(err => {
-//     console.log(err)
-//   })
-// }
+exports.postEditproduct = (req, res, next) => {
+  let productId = req.body.productId;
+  const upTitle = req.body.title;
+  const upImageUrl = req.body.imageUrl;
+  const upPrice = req.body.price;
+  const upDescription = req.body.description;
+  const product = new Product(upTitle, upPrice, upDescription, upImageUrl, new ObjectId(productId));
+  product.save().then(result => {
+    res.redirect('/admin/products');
+    console.log("Updated Result")
+  }).catch(err => {
+    console.log(err)
+  })
+}
 
 exports.getProducts = (req, res, next) => {
   Product.fetchAll()
