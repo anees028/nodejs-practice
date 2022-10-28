@@ -72,23 +72,18 @@ exports.postAddProduct = (req, res, next) => {
 //   })
 // }
 
-// exports.getProducts = (req, res, next) => {
-//   //Simple Getting products using Sequelize methode..
-//   //Product.findAll()
-   
-//   //Getting a product as relation between User & Product..
-//   req.user.getProducts()
-  
-//   .then((products) => {
-//   res.render('admin/products', {
-//       prods: products,
-//       pageTitle: 'Admin Products',
-//       path: '/admin/products'
-//     });
-//   }).catch(err => {
-//     console.log(err)
-//   });
-// };
+exports.getProducts = (req, res, next) => {
+  Product.fetchAll()
+  .then((products) => {
+  res.render('admin/products', {
+      prods: products,
+      pageTitle: 'Admin Products',
+      path: '/admin/products'
+    });
+  }).catch(err => {
+    console.log(err)
+  });
+};
 
 
 // exports.deleteProduct = (req, res, next) => {
